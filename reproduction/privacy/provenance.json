@@ -1,0 +1,56 @@
+[
+  {
+    "file": "reproduction/privacy/collect_updates.py",
+    "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+    "source_path": "experiments/revision/20260829-privacy-attack-v1/scripts/collect_updates.py",
+    "source_sha256": "b29e22797e973f20eeaa54bd738a25458255df5015a15bd1d952dbeebe1e1b50",
+    "changes": [
+      "repository root relative to relocated script",
+      "portable default config",
+      "seed Python, NumPy and PyTorch before partitioning and training"
+    ]
+  },
+  {
+    "file": "reproduction/privacy/attack_differential.py",
+    "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+    "source_path": "experiments/revision/20260829-privacy-attack-v1/scripts/attack_differential.py",
+    "source_sha256": "39e307b156a1b2977fdb55b86f4d54948d3a2263d512debe0a87c4b40350c0b7",
+    "changes": [
+      "repository root relative to relocated script",
+      "portable default config"
+    ]
+  },
+  {
+    "file": "reproduction/privacy/attack_membership_audit.py",
+    "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+    "source_path": "experiments/revision/20260829-privacy-attack-v1/scripts/attack_membership_audit.py",
+    "source_sha256": "cb554bd9c5331bd9771c932c0019df14dba8a035c144888609c55ccd9f17d2a5",
+    "changes": [
+      "repository root relative to relocated script",
+      "portable default config"
+    ]
+  },
+  {
+    "file": "reproduction/privacy/attack_membership_inference.py",
+    "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+    "source_path": "experiments/revision/20260829-privacy-attack-v1/scripts/attack_membership_inference.py",
+    "source_sha256": "1c399a3237f7a6de60538d2eef5be1cea3dc34f8a941a9472c58002d58976e3e",
+    "changes": [
+      "repository root relative to relocated script",
+      "portable default config",
+      "correct complete-model-view attribution in module documentation",
+      "seed Python, NumPy and PyTorch before data setup and scoring"
+    ]
+  },
+  {
+    "file": "reproduction/privacy/attack_linkage_ladder.py",
+    "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+    "source_path": "experiments/revision/20260829-privacy-attack-v1/scripts/attack_linkage_ladder.py",
+    "source_sha256": "ed83025701e9adc47c93eb7073cada516e9dce26242c45a87b405be2b1ae5c4a",
+    "changes": [
+      "repository root relative to relocated script",
+      "portable default config",
+      "group linkage and within-round disclosure by source run"
+    ]
+  }
+]

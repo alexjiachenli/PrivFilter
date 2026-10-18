@@ -1,0 +1,39 @@
+# Local environments and interpreter caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.DS_Store
+# Downloaded data and every generated experiment artifact
+data/
+outputs/
+saved_models/
+results/
+reports/
+*.pt
+*.pth
+*.ckpt
+*.npy
+*.npz
+*.pkl
+*.pickle
+*.log
+# CryptGPU runtime and private material
+.cache/
+noise_seeds/
+.private/
+mp-spdz-0.4.1/
+model_cache/
+shares/
+private_inputs/
+Player-Data/
+.env
+.env.*
+*.pem
+*.key
+# Editors
+.vscode/
+.idea/

@@ -1,0 +1,382 @@
+diff --git a/crypten/mpc/max_helper.py b/crypten/mpc/max_helper.py
+--- a/crypten/mpc/max_helper.py
++++ b/crypten/mpc/max_helper.py
+@@ -26,4 +26 @@ def _compute_pairwise_comparisons_for_steps(input_tensor, dim):
+-        ptx = x.get_plain_text()
+-        pm = pairwise_max.get_plain_text()
+-
+         enc_tensor_reduced = crypten.cat([pairwise_max, remainder], dim=dim)
+diff --git a/crypten/mpc/mpc.py b/crypten/mpc/mpc.py
+--- a/crypten/mpc/mpc.py
++++ b/crypten/mpc/mpc.py
+@@ -544,2 +544 @@ class MPCTensor(CrypTensor):
+-        result_pt = result.get_plain_text()
+         return result
+diff --git a/crypten/__init__.py b/crypten/__init__.py
+index 2e0f0e0..4202551 100644
+--- a/crypten/__init__.py
++++ b/crypten/__init__.py
+@@ -16,7 +16,10 @@ import crypten.mpc  # noqa: F401
+ import crypten.nn  # noqa: F401
+ import crypten.optim  # noqa: F401
+ import torch
+-import torchcsprng as csprng
++try:
++    import torchcsprng as csprng
++except Exception:
++    csprng = None
+
+ # other imports:
+ from . import debug
+@@ -231,7 +234,10 @@ def _setup_przs(device=None, use_csprng=False, sync_key=False ):
+     comm.get().g1.manual_seed(prev_seed.item())
+
+
+-    if use_csprng:
++    if use_csprng and csprng is None:
++        raise RuntimeError("use_csprng=True requires the torchcsprng package")
++
++    if use_csprng:
+         if sync_key:
+             urandom_gen = csprng.create_random_device_generator('/dev/urandom')
+             g0_key = csprng.aes128_key_tensor(urandom_gen)
+diff --git a/crypten/common/serial.py b/crypten/common/serial.py
+index 4c6808b..3f289f6 100644
+--- a/crypten/common/serial.py
++++ b/crypten/common/serial.py
+@@ -20,7 +20,21 @@ import warnings
+ from contextlib import closing, contextmanager
+
+ import torch
+-from torch._utils_internal import get_source_lines_and_file
++try:
++    from torch._utils_internal import get_source_lines_and_file
++except Exception:
++    # Fallback for newer PyTorch where _utils_internal API changed/removed
++    import inspect
++    def get_source_lines_and_file(obj):
++        try:
++            lines, _ = inspect.getsourcelines(obj)
++        except Exception:
++            lines = []
++        try:
++            src = inspect.getsourcefile(obj) or inspect.getfile(obj) or ""
++        except Exception:
++            src = ""
++        return lines, src
+ from torch.serialization import (
+     _check_seekable,
+     _get_restore_location,
+diff --git a/crypten/mpc/context.py b/crypten/mpc/context.py
+index 03a1c9f..9f1f2de 100644
+--- a/crypten/mpc/context.py
++++ b/crypten/mpc/context.py
+@@ -8,8 +8,11 @@
+ import functools
+ import logging
+ import multiprocessing
++import queue as queue_module
+ import os
+ import tempfile
++import time
++import traceback
+ from operator import itemgetter
+
+ import crypten
+@@ -26,11 +29,29 @@ def _launch(func, rank, world_size, rendezvous_file, queue, func_args, func_kwarg
+     for key, val in communicator_args.items():
+         os.environ[key] = str(val)
+
+-    crypten.init()
+-    return_value = func(*func_args, **func_kwargs)
+-    crypten.uninit()
+-
+-    queue.put((rank, return_value))
++    packet = None
++    try:
++        crypten.init()
++        packet = {"rank": rank, "ok": True, "value": func(*func_args, **func_kwargs)}
++    except BaseException as error:
++        packet = {
++            "rank": rank,
++            "ok": False,
++            "error": "%s: %s" % (type(error).__name__, error),
++            "traceback": traceback.format_exc(),
++        }
++    finally:
++        try:
++            crypten.uninit()
++        except BaseException as error:
++            if packet is None or packet.get("ok", False):
++                packet = {
++                    "rank": rank,
++                    "ok": False,
++                    "error": "crypten.uninit failed: %s: %s" % (type(error).__name__, error),
++                    "traceback": traceback.format_exc(),
++                }
++        queue.put(packet)
+
+
+ def run_multiprocess(world_size):
+@@ -43,6 +64,14 @@ def run_multiprocess(world_size):
+     def decorator(func):
+         @functools.wraps(func)
+         def wrapper(*args, **kwargs):
++            timeout_seconds = float(
++                os.environ.get("CRYPTGPU_MULTIPROCESS_TIMEOUT_SECONDS", "900")
++            )
++            packet_timeout_seconds = float(
++                os.environ.get("CRYPTGPU_QUEUE_TIMEOUT_SECONDS", "30")
++            )
++            if timeout_seconds <= 0 or packet_timeout_seconds <= 0:
++                raise ValueError("CryptGPU process and queue timeouts must be positive")
+             rendezvous_file = tempfile.NamedTemporaryFile(delete=True).name
+             queue = multiprocessing.Queue()
+
+@@ -87,22 +116,67 @@ def run_multiprocess(world_size):
+             for process in processes:
+                 process.start()
+
++            deadline = time.monotonic() + timeout_seconds
+             for process in processes:
+-                process.join()
++                process.join(max(0.0, deadline - time.monotonic()))
++
++            timed_out = [process for process in processes if process.is_alive()]
++            for process in timed_out:
++                process.terminate()
++            for process in timed_out:
++                process.join(5.0)
+
+             if was_initialized:
+                 crypten.init()
+
++            if timed_out:
++                ranks = [processes.index(process) for process in timed_out]
++                raise RuntimeError(
++                    "CryptGPU parties exceeded %.1fs timeout; process indexes=%s"
++                    % (timeout_seconds, ranks)
++                )
++
+             successful = [process.exitcode == 0 for process in processes]
+             if not all(successful):
+-                logging.error("One of the parties failed. Check past logs")
+-                return None
++                failed = [
++                    (index, process.exitcode)
++                    for index, process in enumerate(processes)
++                    if process.exitcode != 0
++                ]
++                raise RuntimeError("CryptGPU party process failure(s): %s" % failed)
+
+-            return_values = []
+-            while not queue.empty():
+-                return_values.append(queue.get())
++            packets = []
++            for _ in range(len(processes)):
++                try:
++                    packets.append(queue.get(timeout=packet_timeout_seconds))
++                except queue_module.Empty as error:
++                    raise RuntimeError(
++                        "CryptGPU returned %d/%d result packets within %.1fs"
++                        % (len(packets), len(processes), packet_timeout_seconds)
++                    ) from error
++
++            ranks = [packet.get("rank") for packet in packets]
++            if len(ranks) != len(set(ranks)):
++                raise RuntimeError("CryptGPU returned duplicate rank packets: %s" % ranks)
++            expected_ranks = set(range(world_size))
++            missing_ranks = sorted(expected_ranks.difference(ranks))
++            if missing_ranks:
++                raise RuntimeError("CryptGPU missing result rank(s): %s" % missing_ranks)
++
++            failures = [packet for packet in packets if not packet.get("ok", False)]
++            if failures:
++                details = "\n".join(
++                    "rank %(rank)s: %(error)s\n%(traceback)s" % packet
++                    for packet in sorted(failures, key=itemgetter("rank"))
++                )
++                logging.error("CryptGPU party failure(s):\n%s", details)
++                raise RuntimeError("CryptGPU party failure(s):\n%s" % details)
+
+-            return [value for _, value in sorted(return_values, key=itemgetter(0))]
++            normal_packets = [packet for packet in packets if packet["rank"] < world_size]
++            return [
++                packet["value"]
++                for packet in sorted(normal_packets, key=itemgetter("rank"))
++            ]
+
+         return wrapper
+
+diff --git a/crypten/nn/__init__.py b/crypten/nn/__init__.py
+index 2c9f494..f14d9cb 100644
+--- a/crypten/nn/__init__.py
++++ b/crypten/nn/__init__.py
+@@ -13,6 +13,7 @@ from .module import (
+     BatchNorm1d,
+     BatchNorm2d,
+     BatchNorm3d,
++    Identity,
+     Concat,
+     Constant,
+     ConstantPad1d,
+@@ -57,6 +58,7 @@ __all__ = [
+     "BatchNorm1d",
+     "BatchNorm2d",
+     "BatchNorm3d",
++    "Identity",
+     # "BCELoss",
+     # "BCEWithLogitsLoss",
+     "Concat",
+diff --git a/crypten/nn/module.py b/crypten/nn/module.py
+index 7c5ab99..8876978 100644
+--- a/crypten/nn/module.py
++++ b/crypten/nn/module.py
+@@ -1966,6 +1966,23 @@ class BatchNorm3d(_BatchNorm):
+     pass
+
+
++class Identity(Module):
++    """
++    Passthrough module that returns input unchanged.
++    Used to support ONNX Identity operator during conversion.
++    """
++
++    def __init__(self):
++        super().__init__()
++
++    def forward(self, x):
++        return x
++
++    @staticmethod
++    def from_onnx(parameters=None, attributes=None):
++        return Identity()
++
++
+ def _all_the_same(items):
+     """
+     Checks whether all values in a list are the same.
+diff --git a/crypten/nn/onnx_converter.py b/crypten/nn/onnx_converter.py
+index 4dea269..f90bdba 100644
+--- a/crypten/nn/onnx_converter.py
++++ b/crypten/nn/onnx_converter.py
+@@ -12,7 +12,10 @@ from collections import OrderedDict
+ import onnx
+ import torch
+ import torch.onnx.symbolic_helper as sym_help
+-import torch.onnx.symbolic_registry as sym_registry
++try:
++    import torch.onnx.symbolic_registry as sym_registry  # PyTorch <=1.10
++except Exception:
++    sym_registry = None
+ import torch.onnx.utils
+ from onnx import numpy_helper
+
+@@ -61,20 +64,23 @@ def _from_pytorch_to_bytes(pytorch_model, dummy_input):
+
+ def _export_pytorch_model(f, pytorch_model, dummy_input):
+     """Returns a Binary I/O stream containing exported model"""
++    # PyTorch 2.x removed `enable_onnx_checker`; use a stable opset and minimal kwargs.
+     kwargs = {
+         "do_constant_folding": False,
+         "export_params": True,
+-        "enable_onnx_checker": False,
+         "input_names": ["input"],
+         "output_names": ["output"],
++        "opset_version": 12,
+     }
+     try:
+-        # current version of PyTorch requires us to use `enable_onnx_checker`
+         torch.onnx.export(pytorch_model, dummy_input, f, **kwargs)
+     except TypeError:
+-        # older versions of PyTorch require us to NOT use `enable_onnx_checker`
+-        kwargs.pop("enable_onnx_checker")
+-        torch.onnx.export(pytorch_model, dummy_input, f, **kwargs)
++        # Fallback: drop potentially unsupported kwargs for older/newer torch versions
++        fallback_kwargs = {
++            "export_params": True,
++            "opset_version": 12,
++        }
++        torch.onnx.export(pytorch_model, dummy_input, f, **fallback_kwargs)
+     return f
+
+
+@@ -138,6 +144,7 @@ class FromOnnx:
+         "Relu": module.ReLU,
+         "ReduceMean": module.Mean,
+         "ReduceSum": module.Sum,
++        "Identity": module.Identity,
+     }
+
+     def __init__(self, onnx_string_or_file):
+@@ -341,27 +348,50 @@ def _sync_tensorflow_parameters(parameter_map, module_name):
+
+ def _update_onnx_symbolic_registry():
+     """
+-    Updates the ONNX symbolic registry for operators that need a CrypTen-specific
+-    implementation and custom operators.
++    Updates ONNX symbolic functions for ops to CrypTen-specific ones.
++    Supports both legacy registry API and PyTorch 2.x symbolic_opset modules.
+     """
+-    for version_key, version_val in sym_registry._registry.items():
+-        for function_key in version_val.keys():
+-            if function_key == "softmax":
+-                sym_registry._registry[version_key][
+-                    function_key
+-                ] = _onnx_crypten_softmax
+-            if function_key == "log_softmax":
+-                sym_registry._registry[version_key][
+-                    function_key
+-                ] = _onnx_crypten_logsoftmax
+-            if function_key == "dropout":
+-                sym_registry._registry[version_key][
+-                    function_key
+-                ] = _onnx_crypten_dropout
+-            if function_key == "feature_dropout":
+-                sym_registry._registry[version_key][
+-                    function_key
+-                ] = _onnx_crypten_feature_dropout
++    # Legacy registry path (PyTorch 1.x)
++    if sym_registry is not None and hasattr(sym_registry, "_registry"):
++        for version_key, version_val in sym_registry._registry.items():
++            for function_key in list(version_val.keys()):
++                if function_key == "softmax":
++                    sym_registry._registry[version_key][
++                        function_key
++                    ] = _onnx_crypten_softmax
++                elif function_key == "log_softmax":
++                    sym_registry._registry[version_key][
++                        function_key
++                    ] = _onnx_crypten_logsoftmax
++                elif function_key == "dropout":
++                    sym_registry._registry[version_key][
++                        function_key
++                    ] = _onnx_crypten_dropout
++                elif function_key == "feature_dropout":
++                    sym_registry._registry[version_key][
++                        function_key
++                    ] = _onnx_crypten_feature_dropout
++        return
++
++    # PyTorch 2.x path: override functions in symbolic_opset modules
++    import importlib
++    for opset in range(7, 21):
++        try:
++            mod = importlib.import_module(f"torch.onnx.symbolic_opset{opset}")
++        except Exception:
++            continue
++        try:
++            if hasattr(mod, "softmax"):
++                setattr(mod, "softmax", _onnx_crypten_softmax)
++            if hasattr(mod, "log_softmax"):
++                setattr(mod, "log_softmax", _onnx_crypten_logsoftmax)
++            if hasattr(mod, "dropout"):
++                setattr(mod, "dropout", _onnx_crypten_dropout)
++            if hasattr(mod, "feature_dropout"):
++                setattr(mod, "feature_dropout", _onnx_crypten_feature_dropout)
++        except Exception:
++            # If override fails for a specific opset, skip gracefully
++            pass
+
+
+ @sym_help.parse_args("v", "i", "none")

@@ -1,0 +1,335 @@
+{
+  "schema": "privfilter-source-extraction-v1",
+  "prepared_date": "2026-10-18",
+  "source_repository": "https://github.com/alexjiachenli/fldd",
+  "runtime_source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+  "integer_clipping_source_commit": "6e36f202d2871e226d46a83a69e44b43f3ea8f26",
+  "cryptgpu": {
+    "repository": "https://github.com/jeffreysijuntan/CryptGPU",
+    "commit": "2ff57b2b4d718f9665f4b2ac8245b0bcd7e65165",
+    "patch_sha256": "9df7ad4387ad58c754b759bb17257e113b5c9d05c4a826a4b42eb8cde127fc2a"
+  },
+  "configuration_provenance": "reproduction/manifest.json",
+  "empirical_audit_provenance": "reproduction/privacy/provenance.json",
+  "files": [
+    {
+      "path": "algorithm.py",
+      "sha256": "6136bc7439f812e34cb201fc61130a15049889369bdbb360cea05933fea81262",
+      "source_commit": "6e36f202d2871e226d46a83a69e44b43f3ea8f26",
+      "source_path": "algorithm.py",
+      "source_sha256": "877f2d14257786d5cadde3226695fcfe8e3849f700a575fd2e021233a66ad637"
+    },
+    {
+      "path": "backdoor_attack.py",
+      "sha256": "7713150a972efa3fc7c372f865865ce80a92d94c9499e425183be5d66b3e168c",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "backdoor_attack.py",
+      "source_sha256": "5c710bb6e706e0227a4e5f6a787757b3812d61c1ad590e588f31bda25ae1790d"
+    },
+    {
+      "path": "baseline_crowdguard.py",
+      "sha256": "6b9e77b672de9b7e567d7e707954614476c66ae453a6493952d0061c15457759",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "baseline_crowdguard.py",
+      "source_sha256": "6bff6e35817ae3a60ee3af98eff12e7bc37e0520496d73f8c61e1eedee56b534"
+    },
+    {
+      "path": "baseline_fltrust.py",
+      "sha256": "4f7228b6256484051191288e4819dfb382de1e5e540e1d96f70cc68eb4d590ad",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "baseline_fltrust.py",
+      "source_sha256": "92c24a90c26bab84bdc1635a0f9e38713cf859448f3f0dfaf9f81e142a9d768c"
+    },
+    {
+      "path": "baseline_input_validation.py",
+      "sha256": "6352056333d7e94f5ce23e6f275e0532985ba980f87b2920ac05335c39564d27",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "baseline_input_validation.py",
+      "source_sha256": "59ae7834bfa54a84cc9b0194a458608e0fc82b9949dae99c924d4995660b3030"
+    },
+    {
+      "path": "baseline_shieldfl.py",
+      "sha256": "00fc47311d927208b329f587fc09b3d60ed4ccf794f2ab7894adb574891fd35f",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "baseline_shieldfl.py",
+      "source_sha256": "98ea820192b6862251c695f870d1ee39c7463a6b7f1e3e5abc544599d7b456c6"
+    },
+    {
+      "path": "cryptgpu_runtime.py",
+      "sha256": "67949cb4d9bb1312dff339b4629321288d9d6dee5e33abc570a37faa627b0c72",
+      "source_commit": "6e36f202d2871e226d46a83a69e44b43f3ea8f26",
+      "source_path": "cryptgpu_runtime.py",
+      "source_sha256": "100ad571627c2b586f3431295fad3fedece6539f4e1d843ab176ad306bdfb71b"
+    },
+    {
+      "path": "datasets/GTSRB.py",
+      "sha256": "903b4aaaf47758c447e78a4c8e923b2ae5f5c695f3e28f704851a159fb477e88",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "datasets/GTSRB.py",
+      "source_sha256": "55b182652656e4fdae48ba6e2c235ac6ed0dc927e06ee61981505d1d60d9816b"
+    },
+    {
+      "path": "datasets/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "datasets/__init__.py",
+      "source_sha256": "9d6a41ace20d348aadf540449a2c0e439bf814a84ff3a905d73aba4af80d6b15"
+    },
+    {
+      "path": "detector_rules.py",
+      "sha256": "b4275c362d636a95edb210ab7bf17d2e09eb7e7c683cebb96105292312ecd3f0",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "detector_rules.py",
+      "source_sha256": "4336e550f1740538a068fb4f95b45a9716588dc47cfb2586e56314f92ddf0907"
+    },
+    {
+      "path": "device.py",
+      "sha256": "7390b9523fef4f44e70a00beee1f03c9ab4d4a3885cb636989b84a67b44afb34",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "device.py",
+      "source_sha256": "faffc39cf7873efcbc613d63f19911e424ff66d1acace7d7c6431dc547c79519"
+    },
+    {
+      "path": "differential_privacy.py",
+      "sha256": "9de0855d195777ad6645645891db0af9108dc1db70e6bf0d97c0fe138b38b02f",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "differential_privacy.py",
+      "source_sha256": "a61d259f6469a1942954b33ce7de43207c0740258f24a958e7f9fbb127c35ed9"
+    },
+    {
+      "path": "gan.py",
+      "sha256": "6b1d53c51a031e42fcd0303a5ba205255917a1b9119cd5c96d1ed69fa8fa6d5a",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "gan.py",
+      "source_sha256": "e41623e46c7bf9b5a400eda4d44924e864f206d1e783661a8753be935c2862df"
+    },
+    {
+      "path": "handle.py",
+      "sha256": "b4c42636ceece9343fc59a068a504033ba31b1ddbcca52c52cb201e3be1641c7",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "handle.py",
+      "source_sha256": "9c9feb5e906b4cb237b50a81ea25356ca25dd9ae39950170e7cec746bd35336b"
+    },
+    {
+      "path": "main.py",
+      "sha256": "1c57246b0eb338aa98ee5e9d671fa2915ef24fd210cf75c69c916904e0b77759",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "main.py",
+      "source_sha256": "7704f826516391a0c96f44f9f6dc58c3e1eefd4ffbd769865b02c935c95e2c75"
+    },
+    {
+      "path": "memory_utils.py",
+      "sha256": "a68e7a7721eecd364907cdd1322e160820be07a5dd2f7cbbddb5b4bc628a98f7",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "memory_utils.py",
+      "source_sha256": "b59f4d5c0fbb5f46907f4ad3d658160be2252c547f937669c9687f428873f7c4"
+    },
+    {
+      "path": "models/CNNMnist.py",
+      "sha256": "ece42de19e58221fea03f1c660d324c0d458652ee9726ceea73b78d9158aa477",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "models/CNNMnist.py",
+      "source_sha256": "afc4bc5bc4208ea45253352e0d17b29b519e0c8140c716726026bee3a7c39bfb"
+    },
+    {
+      "path": "models/ResNet18.py",
+      "sha256": "798825bf40ddb5b440a7b924df7ae1da53cf4743f20fed7b7b250672763337f0",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "models/ResNet18.py",
+      "source_sha256": "ef8cc1ad789db78926a1569a20bfb3a2d0e805f4b3d448bbfb0b7a25f934ead6"
+    },
+    {
+      "path": "models/ResNet50Cifar.py",
+      "sha256": "b05a2e20c800a0252d8d8a2044f44dfffb5216d8aa5fd91b15c170b3edd7972c",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "models/ResNet50Cifar.py",
+      "source_sha256": "b05a2e20c800a0252d8d8a2044f44dfffb5216d8aa5fd91b15c170b3edd7972c"
+    },
+    {
+      "path": "models/ResNet8.py",
+      "sha256": "1fcfd9a7cea5fecba5619c31dde6b07a73d1f2cc3678ba84d9cbdb849a3259ea",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "models/ResNet8.py",
+      "source_sha256": "f6f197d44b8543c4ed419a52398048c45ba5da8fa90a0b4d0caf3dc8e1b4be4a"
+    },
+    {
+      "path": "models/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "models/__init__.py",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "mp_spdz_runtime.py",
+      "sha256": "af787765b71f7f6b2380eab3b7c5bfc6e0895a647fe9a8a102c423894bc0f014",
+      "source_commit": "6e36f202d2871e226d46a83a69e44b43f3ea8f26",
+      "source_path": "mp_spdz_runtime.py",
+      "source_sha256": "74c3bfd3d0db31f5d7524006f8d2c203acbc40914082f3c589def7e34c5ddbe8"
+    },
+    {
+      "path": "mpc_clip_cache.py",
+      "sha256": "92fb8aa2e1be3b8e9fa1b90735319d859607fc1d9738647706d0b4267c8d036b",
+      "source_commit": "6e36f202d2871e226d46a83a69e44b43f3ea8f26",
+      "source_path": "mpc_clip_cache.py",
+      "source_sha256": "b582c3fc3fbb3cb14cea89e683d2598dcb1601245bb528a35abc038fe8ce381a"
+    },
+    {
+      "path": "mpc_dp_release.py",
+      "sha256": "65d0c39dcdf0acef643807aa5d8f6fae8eed553e468a72e09e49da2c084c1844",
+      "source_commit": "6e36f202d2871e226d46a83a69e44b43f3ea8f26",
+      "source_path": "mpc_dp_release.py",
+      "source_sha256": "ec39ec7c0b6922d8260ce39ce293d734a26819d5d1662de1d7ee027a45ea0fdf"
+    },
+    {
+      "path": "mpc_l2_clip.py",
+      "sha256": "6399a9b639957c8c75243b5f1faa9ed121897d4a05f18f729c1dbf0934adf07c",
+      "source_commit": "6e36f202d2871e226d46a83a69e44b43f3ea8f26",
+      "source_path": "mpc_l2_clip.py",
+      "source_sha256": "bc67b82c95c67327c16080f6119e662592a390a114dabf2a45368d3cca567b2f"
+    },
+    {
+      "path": "patches/cryptgpu-pytorch2-runtime.patch",
+      "sha256": "9df7ad4387ad58c754b759bb17257e113b5c9d05c4a826a4b42eb8cde127fc2a",
+      "source_commit": "6e36f202d2871e226d46a83a69e44b43f3ea8f26",
+      "source_path": "patches/cryptgpu-pytorch2-runtime.patch",
+      "source_sha256": "9df7ad4387ad58c754b759bb17257e113b5c9d05c4a826a4b42eb8cde127fc2a"
+    },
+    {
+      "path": "reproduction/privacy/attack_differential.py",
+      "sha256": "963a73c03a103659fda2e154559990471a356c9c609fe049d985295f1f527e4d"
+    },
+    {
+      "path": "reproduction/privacy/attack_linkage_ladder.py",
+      "sha256": "37078fe3a18a7304087ff4e9347c669cd10135ff7e82de537708166b18ef2d47"
+    },
+    {
+      "path": "reproduction/privacy/attack_membership_audit.py",
+      "sha256": "4a9c489524b76ce08bfcef83e2fd98e08000a79a91762a72abcc0f2fc2280da5"
+    },
+    {
+      "path": "reproduction/privacy/attack_membership_inference.py",
+      "sha256": "949b4389a2ea3c2c016a71737ec05bc4630d12727b90354496145604235b9f33"
+    },
+    {
+      "path": "reproduction/privacy/collect_updates.py",
+      "sha256": "92979f712049275014abfea0d31d69494551a5880c7eb7c746c7cfb90f12d599"
+    },
+    {
+      "path": "scripts/check_release.py",
+      "sha256": "236b3cbbfe3a8b1bce35fd70076e18ed550b32a6d5a7d2048d402d1ded482af0"
+    },
+    {
+      "path": "scripts/generate_party_noise_inputs_for_round.py",
+      "sha256": "efed99ad17de9696c2ed3b42467fbd40f42c3ecaf39616700f0619a9c7687aec",
+      "source_commit": "6e36f202d2871e226d46a83a69e44b43f3ea8f26",
+      "source_path": "scripts/generate_party_noise_inputs_for_round.py",
+      "source_sha256": "28ef00df59e4e83bccfdc1e5a49df333ff750ded9eea94a3c67996b2eb329003"
+    },
+    {
+      "path": "scripts/provision_noise_seed.py",
+      "sha256": "9a0f0470d0137641aff920d7f74ee75c003ede1a4bbf7191c122ea3db686225b"
+    },
+    {
+      "path": "scripts/provision_party_noise_seed.py",
+      "sha256": "f02a90466b21b5012ec91961ed0046f612dcde53aedcc19092d655fb1366adc8",
+      "source_commit": "6e36f202d2871e226d46a83a69e44b43f3ea8f26",
+      "source_path": "scripts/provision_party_noise_seed.py",
+      "source_sha256": "ab47654741d417daf151f0b017a2765a65c0f55586de2ceee94edf0cdcf5eded"
+    },
+    {
+      "path": "scripts/reproduce.py",
+      "sha256": "a6bf7871d7e09ad30fe90dc3a0c47039d0baffbdbb25d7eb6006b862eec9f286"
+    },
+    {
+      "path": "secure_aggregation.py",
+      "sha256": "b0336a413ace753d5f56cac217073e15dde9ca23d2b36c00926ccb80cb81a09e",
+      "source_commit": "6e36f202d2871e226d46a83a69e44b43f3ea8f26",
+      "source_path": "secure_aggregation.py",
+      "source_sha256": "d98439e94a7840729598f0324509c105f243ac08500e850ee7a66f3315269423"
+    },
+    {
+      "path": "test.py",
+      "sha256": "e37d4be219f08d3bace7899f4d763e6f5e95f81de5eca298cdc9292712e2dca8",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "test.py",
+      "source_sha256": "2bd6e91c7f3227d2aaccee730dd2638a844f5b81337d758af597da9bb7cb6e24"
+    },
+    {
+      "path": "tests/test_baseline_aggregate_io.py",
+      "sha256": "38f315f1dbfb37c8c396211f02319b7bf233a460840459743a5cf4c0a5193203",
+      "source_commit": "6e36f202d2871e226d46a83a69e44b43f3ea8f26",
+      "source_path": "tests/test_secure_aggregation_binary_io_unittest.py",
+      "source_sha256": "133d6bc82371d03c0c8266deda451bbe4245ae44f9334502d8da3d1ee3ea25e2"
+    },
+    {
+      "path": "tests/test_clip_cache.py",
+      "sha256": "a56a59feb7acfd4531d26095daf6455dcac3bf752472d8184c586538262f1ff2",
+      "source_commit": "6e36f202d2871e226d46a83a69e44b43f3ea8f26",
+      "source_path": "tests/test_mpc_l2_clip_unittest.py",
+      "source_sha256": "23cc473a0d65b7857bce0aed19813c7d124b49666559f175d63d1affce9e1a78"
+    },
+    {
+      "path": "tests/test_core.py",
+      "sha256": "2d813856b313055b78db67c4257819e10ec0b67a0d690f4ffe2117fa8ae87108"
+    },
+    {
+      "path": "tests/test_integer_clipping.py",
+      "sha256": "934a639209bccb942e574f6b005e35859c404c551d92e3cc139ad86858797f29",
+      "source_commit": "6e36f202d2871e226d46a83a69e44b43f3ea8f26",
+      "source_path": "tests/test_mpc_l2_clip_unittest.py",
+      "source_sha256": "23cc473a0d65b7857bce0aed19813c7d124b49666559f175d63d1affce9e1a78"
+    },
+    {
+      "path": "tests/test_linkage_ladder.py",
+      "sha256": "0a3b041bf75c3152a9e04a94f7906cfeab4da7a3c03810ab8cd6c5ed64a85568"
+    },
+    {
+      "path": "tests/test_mp_spdz_binary_path.py",
+      "sha256": "59e8f5f64583c41bc448431cfb8e12c70d31ea610131f75714a1228dad798736"
+    },
+    {
+      "path": "tests/test_privacy_collection.py",
+      "sha256": "540645d49bec2bdd8d03a9c0af1729e1fee1804abac5d2961191a3062c3d1c25"
+    },
+    {
+      "path": "tests/test_release_pairing.py",
+      "sha256": "da7fe109bbb41668874a43cea46ec54163867198f6abf97b1e38d207d510d371",
+      "source_commit": "6e36f202d2871e226d46a83a69e44b43f3ea8f26",
+      "source_path": "tests/test_release_pairing_unittest.py",
+      "source_sha256": "7fd2bf2fc04b4f40c11d014f4e3f24bc36ee885ea024a719acd43c496e5db2ac"
+    },
+    {
+      "path": "tests/test_reproduction_catalog.py",
+      "sha256": "52825328f1544c84c285c459fe5ecbbd7ee332d2259425a77e63a4b5ce72e033"
+    },
+    {
+      "path": "tests/test_training_smoke.py",
+      "sha256": "7bc536d36bfdef6756ddce757d61c47457e270ba0b01300e7ef67141b41d0967"
+    },
+    {
+      "path": "tools/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tools/fuse_bn.py",
+      "sha256": "3430e721a470a0136d12f28f278b8a7dec6b07d72ad852b74459d0776b6ce665",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "tools/fuse_bn.py",
+      "source_sha256": "727bd9a5c45a8ddde589a8c5f34d39dbbd747e3b174f8c1f6d5802ae9fdfa694"
+    },
+    {
+      "path": "tools/prepare_cryptgpu_runtime.py",
+      "sha256": "df84cbce72f400507d73ad298f9d204133276c6b717250989258ab960d65fc10",
+      "source_commit": "6e36f202d2871e226d46a83a69e44b43f3ea8f26",
+      "source_path": "tools/prepare_cryptgpu_runtime.py",
+      "source_sha256": "0d73a96bde52aaebc9cbd15884956a01d63fa32f571910b3b30019cd50a791b1"
+    },
+    {
+      "path": "train.py",
+      "sha256": "5e44224e2274a1221679a5cdf21108d61ca1c9f89c799dde22bbdfffa038e8ef",
+      "source_commit": "2b2f08545acb3bf7ccecdbf4eb49a1b9add40142",
+      "source_path": "train.py",
+      "source_sha256": "7a3ef53354040f2b302cda6b097f2eabb32ba6d19ce08ad353db9f08aa0eb798"
+    }
+  ]
+}

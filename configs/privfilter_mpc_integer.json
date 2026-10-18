@@ -1,0 +1,187 @@
+{
+  "0_poison_pattern": [
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      1
+    ],
+    [
+      0,
+      2
+    ],
+    [
+      0,
+      3
+    ],
+    [
+      0,
+      6
+    ],
+    [
+      0,
+      7
+    ],
+    [
+      0,
+      8
+    ],
+    [
+      0,
+      9
+    ],
+    [
+      3,
+      0
+    ],
+    [
+      3,
+      1
+    ],
+    [
+      3,
+      2
+    ],
+    [
+      3,
+      3
+    ],
+    [
+      3,
+      6
+    ],
+    [
+      3,
+      7
+    ],
+    [
+      3,
+      8
+    ],
+    [
+      3,
+      9
+    ]
+  ],
+  "algorithm": "FedAvg",
+  "allow_insecure_test_noise": false,
+  "allow_plaintext_detector_screen": false,
+  "allow_simulated_noise_shares": false,
+  "allow_zero_noise_mpc_dp_release": false,
+  "batch_size": 128,
+  "bn_folding_use_running_stats": false,
+  "client_sampling_strategy": "balanced_block",
+  "coordinator_noisy_transcript": "linked",
+  "crypten_use_gpu": true,
+  "crypten_world_size": 3,
+  "cryptgpu_bn_use_noisy": true,
+  "cryptgpu_chunk_size": 10,
+  "cryptgpu_compare_debug": false,
+  "cryptgpu_fail_closed": true,
+  "cryptgpu_world_size": 3,
+  "debug_zero_noise_run": false,
+  "decay": 0.0005,
+  "defence_method": "ours_cryptgpu",
+  "detector_output_mode": "accept_bits_only",
+  "diagnostic_only": true,
+  "dirichlet_alpha": 1,
+  "dp_cbf_stats_source": "aggregate_noisy_reference",
+  "dp_release_source": "mpc_aggregate_ref_dp_fast",
+  "enable_ldp": true,
+  "epochs": 200,
+  "eta": 1,
+  "final_detector": "calibrated_centered_score",
+  "fixed_tau_require_target_top": true,
+  "gpu_preload": true,
+  "is_poison": true,
+  "ldp_accountant_type": "rdp",
+  "ldp_accountant_variant": "balanced_direct_composition",
+  "ldp_delta": "1e-5",
+  "ldp_detection_use_noisy": false,
+  "ldp_epsilon": 1.0,
+  "ldp_final_agg_use_noisy": false,
+  "ldp_max_grad_norm": 1.0,
+  "ldp_noise_multiplier": 2.4023136318435663,
+  "ldp_ori_weight_source": "aggregate_ref",
+  "ldp_rdp_conversion": "paper_tight",
+  "ldp_releases_per_round": 1,
+  "ldp_target_delta": "1e-5",
+  "ldp_target_epsilon": 10.0,
+  "local_epochs": 2,
+  "log_memory_cryptgpu": false,
+  "log_memory_each_epoch": false,
+  "lr": 0.01,
+  "lr_decay": true,
+  "lr_decay_epoch": 1,
+  "lr_decay_gamma": 0.998,
+  "momentum": 0.9,
+  "mpc_dp_adjacency": "add_remove",
+  "mpc_dp_allow_reuse_party_noise_files": false,
+  "mpc_dp_backend": "cryptgpu",
+  "mpc_dp_clip_cache": true,
+  "mpc_dp_clip_chunk_size": 32768,
+  "mpc_dp_clip_mode": "mpc_l2_integer_nearest",
+  "mpc_dp_clip_norm": 1.0,
+  "mpc_dp_fixed_point_scale": 65536,
+  "mpc_dp_noise_generation": {
+    "allow_coordinator_seed_generation": false,
+    "calibration": "honest_majority_hmin",
+    "cdf_precision_bits": 64,
+    "corruption_threshold": 1,
+    "delete_temp_noise_inputs_after_round": true,
+    "distribution": "bounded_discrete_gaussian",
+    "fail_if_seed_missing": true,
+    "min_honest_noise_parties": 2,
+    "num_parties": 3,
+    "provider": "party_local_seeded_stream",
+    "sampler": "bounded_inverse_cdf",
+    "sigma_int_party": "auto",
+    "sigma_int_target": "auto",
+    "tail_sigma": 8.0,
+    "temp_private_input_dir": "auto"
+  },
+  "mpc_dp_noise_mode": "party_local_distributed_dgauss",
+  "mpc_dp_noise_multiplier": 2.4023136318435663,
+  "mpc_dp_noise_share_mode": "party_local_seeded_stream",
+  "mpc_dp_output_mode": "aggregate_reference",
+  "mpc_dp_protocol": "replicated-field",
+  "mpc_dp_release_pairing": "partition_correlated",
+  "mpc_dp_ring_bits": 64,
+  "mpc_dp_sfix_k": 31,
+  "mpc_dp_statistical_security": 128,
+  "mpc_dp_tail_bound": null,
+  "mpc_realism_level": "L2",
+  "num_clients": 10,
+  "number_of_total_participants": 100,
+  "ours_standard": [
+    0.15,
+    0.15,
+    0.15,
+    0.15
+  ],
+  "poison_client_num": 10,
+  "poison_epochs": 6,
+  "poison_lr": 0.005,
+  "poison_rate": 0.5,
+  "priv_filterfl_mpc_mode": "cryptgpu",
+  "record_bn_diagnostics": false,
+  "record_detection_diagnostics": false,
+  "revision_debug_zero_noise": false,
+  "revision_privacy_valid": false,
+  "revision_validity": "debug",
+  "robust_detector_center_mode": "loo_mean",
+  "robust_detector_center_weight": 1.0,
+  "robust_detector_min_clients": 5,
+  "robust_detector_score_type": "target_probability",
+  "robust_detector_threshold_q": 0.15,
+  "sampling_dirichlet": true,
+  "secure_adaptive_light": false,
+  "secure_agg_backend": "cryptgpu",
+  "secure_mask_mode": "secret_shared",
+  "seed": 1,
+  "trigger_batch_size": 8,
+  "trigger_num": 1,
+  "type": "CIFAR10"
+}

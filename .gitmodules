@@ -1,0 +1,3 @@
+[submodule "external/CryptGPU"]
+	path = external/CryptGPU
+	url = https://github.com/jeffreysijuntan/CryptGPU

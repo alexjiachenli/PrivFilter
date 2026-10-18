@@ -1,0 +1,16 @@
+# Python 3.12. Install the matching CUDA torch/torchvision wheels first on Linux.
+torch==2.8.0
+torchvision==0.23.0
+numpy==2.3.1
+PyYAML==6.0.3
+scipy==1.16.3
+scikit-learn==1.7.2
+Pillow==11.3.0
+psutil==7.1.0
+# Patched, pinned CryptGPU is loaded from its prepared cache, not PyPI crypten.
+onnx==1.19.1
+omegaconf==2.3.0
+tensorboard==2.20.0
+matplotlib==3.10.6
+tqdm==4.67.1
+future==1.0.0
