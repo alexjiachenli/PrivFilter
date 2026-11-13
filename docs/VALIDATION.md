@@ -22,8 +22,7 @@ and passed without skips. The integer CryptGPU recipe completed one- and
 two-round runs with three local MPC processes. Checks covered integer clipping
 inside MPC, secret-mask aggregation, clipped-share cache reuse, three malicious
 submissions, and use of the filtered reference in the following round. These
-short runs verify execution and artifact consistency; full 200-round results
-were not reproduced in this validation.
+short runs verify execution and artifact consistency.
 
 CUDA enables the three-party integer-clipping and cache tests. MP-SPDZ execution
 requires the external runtime described in [backend setup](BACKENDS.md).

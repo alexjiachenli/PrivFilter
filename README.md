@@ -50,5 +50,9 @@ python -m unittest discover -s tests -v
 
 [Test coverage](docs/VALIDATION.md) lists the available checks and hardware requirements.
 Source and configuration provenance are recorded in `SOURCE_MANIFEST.json` and
-`reproduction/manifest.json`. See [attribution and licensing](THIRD_PARTY.md)
-for dependency details.
+`reproduction/manifest.json`.
+
+## License
+
+PrivFilter is released under the [MIT License](LICENSE). See
+[attribution and licensing](THIRD_PARTY.md) for dependency details.

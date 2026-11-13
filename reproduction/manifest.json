@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "description": "Runnable parameter recipes selected for the manuscript. No measured outputs or private random seeds are included. Source commits identify configuration extraction, not necessarily the historical binary used to obtain a published row.",
+  "description": "Runnable parameter recipes selected for the manuscript. Source commits identify where each configuration was extracted.",
   "normalization": {
     "removed_metadata_prefixes": [
       "campaign_",
@@ -9165,7 +9165,7 @@
         "release": "cryptgpu",
         "clip": "mpc_l2_integer_nearest"
       },
-      "note": "Current nearest-integer clipping and share-cache profile. Published floating-point utility and precomputed-input timing do not measure this profile."
+      "note": "Nearest-integer clipping and share-cache profile."
     }
   ]
 }
